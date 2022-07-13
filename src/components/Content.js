@@ -110,7 +110,7 @@ class Content extends React.Component {
 
   handleDeleteCartItem = (itemId, cartList) => {
     this.setState({
-      cartItems: cartList.filter((item) => item.id !== itemId)
+      cartItems: cartList.filter((item) => item.id !== itemId),
     });
   }
 
