@@ -92,7 +92,7 @@ class Content extends React.Component {
     console.log(id);
     const { listItems, cartItems } = this.state;
     const product = listItems.find((item) => item.id === id);
-    const check = cartItems.find((item) => item.id === product.id);
+    const check = cartItems.some((item) => item.id === product.id);
     if (check) {
       this.setState({
         cartItems: this.increaseProductQuantity(id, cartItems),
