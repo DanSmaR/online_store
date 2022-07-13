@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Cart extends Component {
   render() {
-    const { cartItems, onChangeQuantity } = this.props;
+    const { cartItems, onChangeQuantity, onDeleteItem } = this.props;
 
     return (
       <div>
@@ -36,6 +36,12 @@ class Cart extends Component {
                 onClick={ () => { onChangeQuantity('add', item.id, cartItems); } }
               >
                 +
+              </button>
+              <button
+                type="button"
+                onClick={ () => { onDeleteItem(item.id, cartItems); } }
+              >
+                Excluir
               </button>
             </article>
           ))

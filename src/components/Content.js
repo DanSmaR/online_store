@@ -76,7 +76,6 @@ class Content extends React.Component {
   searchProductByQuery = async () => {
     const { productItem } = this.state;
     const { results } = await getProductsFromCategoryAndQuery(null, productItem);
-    console.log(results);
     this.setState({
       listItems: results,
     });
@@ -90,13 +89,14 @@ class Content extends React.Component {
   }
 
   handleAddToCart = (id) => {
+    console.log(id);
     const { listItems, cartItems } = this.state;
     const product = listItems.find((item) => item.id === id);
     const check = cartItems.find((item) => item.id === product.id);
     if (check) {
       this.setState({
         cartItems: this.increaseProductQuantity(id, cartItems),
-      }, () => { localStorage.setItem('cart', JSON.stringify(cartItems)); });
+      });
     } else {
       const productObject = {
         ...product,
@@ -108,12 +108,18 @@ class Content extends React.Component {
     }
   }
 
-  handleCartItemsQuantity = () => {
+  handleDeleteCartItem = (itemId, cartList) => {
+    this.setState({
+      cartItems: cartList.filter((item) => item.id !== itemId)
+    });
+  }
+
+  handleTotalCartItemsQuantity = () => {
     const { cartItems } = this.state;
     return cartItems.reduce((sum, item) => sum + item.quantity, 0);
   }
 
-  addItemQuantityInCart = (action, itemId, cartList) => {
+  handleItemQuantityInCart = (action, itemId, cartList) => {
     if (action === 'add') {
       this.setState({
         cartItems: this.increaseProductQuantity(itemId, cartList),
@@ -158,7 +164,7 @@ class Content extends React.Component {
 
     return (
       <div>
-        <Header cartItemsQuantity={ this.handleCartItemsQuantity() } />
+        <Header cartItemsQuantity={ this.handleTotalCartItemsQuantity() } />
         <Switch>
           <Route
             exact
@@ -180,7 +186,8 @@ class Content extends React.Component {
             render={ () => (
               <Cart
                 cartItems={ cartItems }
-                onChangeQuantity={ this.addItemQuantityInCart }
+                onChangeQuantity={ this.handleItemQuantityInCart }
+                onDeleteItem={ this.handleDeleteCartItem }
               />) }
           />
           <Route
@@ -197,7 +204,7 @@ class Content extends React.Component {
                 onSubmit={ this.handleSubmit }
                 onSaveAvaliation={ this.handleSaveAvaliation }
                 avaliations={ avaliations }
-                cartItemsQuantity={ this.handleCartItemsQuantity() }
+                cartItemsQuantity={ this.handleTotalCartItemsQuantity() }
               />) }
           />
           <Route

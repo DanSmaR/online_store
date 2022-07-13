@@ -8,14 +8,18 @@ class Header extends Component {
     return (
       <div>
         <div>
-          Front-end Online Store
+          <Link to="/"><span>Home</span></Link>
+        </div>
+        <div>
+          <h1>Front-end Online Store</h1>
         </div>
         <div>
           <Link to="/cart" data-testid="shopping-cart-button">
-            Carrinho
-            <p data-testid="shopping-cart-size">
+            <span>Carrinho</span>
+            <br />
+            <span data-testid="shopping-cart-size">
               { cartItemsQuantity }
-            </p>
+            </span>
           </Link>
         </div>
       </div>
